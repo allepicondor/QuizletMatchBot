@@ -1,0 +1,13 @@
+Nitrite:NO
+Nitrate:NO
+Sulfite:SO
+Sulfate:SO
+Phosphite:PO
+Phosphate:PO
+Carbonate:CO
+Hydroxide:OH
+Hypochlorite:ClO
+Chlorite:ClO
+Chlorate:ClO
+Perchlorate:ClO
+Ammonium:NH
