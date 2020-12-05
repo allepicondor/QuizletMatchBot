@@ -1,10 +1,9 @@
 from selenium import webdriver
-import time
 PATH = "chromedriver_win32\chromedriver.exe"
 QUIZLETLINK = "https://quizlet.com/542985790/match"
 FILE_PATH = "PolyatomicIons"
-RUN_ON_REPEAT = False
-KEEPOPEN = True
+RUN_ON_REPEAT = True
+KEEPOPEN = False
 driver = webdriver.Chrome(PATH)
 
 badChars = ["/","(",")","[","]"]
