@@ -14,7 +14,7 @@
 
     [ExampleExport](https://raw.githubusercontent.com/allepicondor/QuizletMatchBot/main/images/Export.PNG)
     
-6. Now hit Copy text and paste it in a file in the directory of main.py, after you paste it check to make sure there is no "@#$" as the last chars of the text if there is delete    it you can save it as "answers"
+6. Now hit Copy text and paste it in a new text file in the directory of main.py, after you paste it check to make sure there is no "@#$" as the last chars of the text if there is delete it you can now save it as "answers"
  
 7. Open CMD and cd into the main.py directory ex"cd C://path/to/main.py" after you cd run the python file like this
      python SeleniumMain.py https://quizletlink/match answers
