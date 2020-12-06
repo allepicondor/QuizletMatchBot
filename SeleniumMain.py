@@ -10,11 +10,17 @@ parser.add_argument('-KO', '--KO',help="Keep window open",action='store_true')
 args = parser.parse_args()
 print(args.QuizletMatchLink)
 
+
 PATH = "chromedriver_win32\chromedriver.exe"
 QUIZLETLINK = args.QuizletMatchLink[0]
 FILE_PATH = args.AnswersLocalFilePath[0]
 RUN_ON_REPEAT = args.ROR
 KEEPOPEN = args.KO
+if(not "/match" in QUIZLETLINK):
+    print("INVALID LINK: use a match link like https://quizlet.com/551580491/match. You can get it by clicking on MATCH on the quizlet then copying the link.")
+    raise TypeError
+file1 = open(FILE_PATH, 'r', encoding='utf-8')
+
 driver = webdriver.Chrome(PATH)
 
 badChars = ["/","(",")","[","]"]
@@ -45,7 +51,6 @@ def textCleanUp(text):
     #     elif letter == "_":
     #         break
     # return newString.replace(" ","")
-file1 = open(FILE_PATH, 'r', encoding='utf-8')
 file1 = file1.read().split("@#$")
 Terms = []
 Definitions=[]
