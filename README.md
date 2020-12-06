@@ -7,5 +7,4 @@
  
  3. go to the quizlet you want to use and hit the More button (3 horizontal dots) and select export, 
  4. once in export menu for Between term and definition select CUSTOM and change the placeholder to "*(#", For Between rows select Custom and change the placeholder to "@#$"
- ![Export](images/Export.png)
-    
+    [Export](https://raw.githubusercontent.com/allepicondor/QuizletMatchBot/main/images/Export.PNG)
