@@ -1,32 +1,52 @@
 from selenium import webdriver
+from login import Login
+from grabquizletwords import GrabWordsFromQuizlet
+import time
 import argparse
 parser = argparse.ArgumentParser(description='Quizlet Bot')
-parser.add_argument('QuizletMatchLink', metavar='L', type=str, nargs='+',
-                    help='Link to your quizlet match game')
-parser.add_argument('AnswersLocalFilePath', metavar='F', type=str, nargs='+',
+parser.add_argument('QuizletCode', metavar='L', type=str, nargs='+',
+                    help='Code to your quizlet can be found in url ex. 542807048 is the code for https://quizlet.com/542807048/ ')
+parser.add_argument('-VocabList',type=str,
                     help='File path to the answer txt of yout quizlet')
 parser.add_argument('-ROR', '--ROR',help="Run on repeat",action='store_true')
 parser.add_argument('-KO', '--KO',help="Keep window open",action='store_true')
+parser.add_argument('-GrabWords', '--GrabWords',help="Grab The vocab list for you REQUIRES LOGIN",action='store_true')
+parser.add_argument('-SaveFile', '--SaveFile',help="save file after grab words",action='store_true')
+parser.add_argument('-username', '--username',help="Optional leave blank if you dont want it to sign in.")
+parser.add_argument('-password', '--password',help="Optional leave blank if you dont want it to sign in.")
 args = parser.parse_args()
-print(args.QuizletMatchLink)
-
+print(args.QuizletCode)
 
 PATH = "chromedriver_win32\chromedriver.exe"
-QUIZLETLINK = args.QuizletMatchLink[0]
-FILE_PATH = args.AnswersLocalFilePath[0]
+QUIZLETLINK = "https://quizlet.com/"+str(args.QuizletCode[0])
+FILE_PATH = args.VocabList
 RUN_ON_REPEAT = args.ROR
 KEEPOPEN = args.KO
-if(not "/match" in QUIZLETLINK):
-    print("INVALID LINK: use a match link like https://quizlet.com/551580491/match. You can get it by clicking on MATCH on the quizlet then copying the link.")
-    raise TypeError
-file1 = open(FILE_PATH, 'r', encoding='utf-8')
-
+GrabWords=args.GrabWords
+loggedIn=False
+#if(not "/match" in QUIZLETLINK):
+#    print("INVALID LINK: use a match link like https://quizlet.com/551580491/match. You can get it by clicking on MATCH on the quizlet then copying the link.")
+#    raise TypeError
+if not GrabWords:
+    file1 = open(FILE_PATH, 'r', encoding='utf-8')
+    file1 = file1.read().split("@#$")
 driver = webdriver.Chrome(PATH)
-
+if not (args.username == None and args.password == None):
+    Login(args.username,args.password,driver)
+    loggedIn=True
+    time.sleep(1)
+if(loggedIn and GrabWords):
+    file1 = GrabWordsFromQuizlet(QUIZLETLINK,driver)
+    if(args.SaveFile):
+        file3 = open(str(args.QuizletCode[0])+".txt","w") 
+        file3.write(file1[:-3])
+    file1 = file1.split("@#$")
+    file1.pop()
 badChars = ["/","(",")","[","]"]
 alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y',' ']
 def textCleanUp(text):
     text = text.replace("\n"," ")
+    text = text.replace("\r"," ")
     text = text.replace(" ", "")
 
     return text
@@ -51,7 +71,6 @@ def textCleanUp(text):
     #     elif letter == "_":
     #         break
     # return newString.replace(" ","")
-file1 = file1.read().split("@#$")
 Terms = []
 Definitions=[]
 termToDefinitions = {}
@@ -62,8 +81,14 @@ for word in file1:
    Terms.append(term)
    Definitions.append(definition)
    termToDefinitions[term] = definition
+if (GrabWords):
+    driver.close()
+    driver = webdriver.Chrome(PATH)
+    if(loggedIn):
+        Login(args.username,args.password,driver)
+        time.sleep(1)
 while True:
-    driver.get(QUIZLETLINK)
+    driver.get(QUIZLETLINK+"/match")
     StartButton = driver.find_element_by_class_name("UIButton.UIButton--hero" )
     StartButton.click()
     tiles = driver.find_elements_by_class_name("MatchModeQuestionGridBoard-tile")
