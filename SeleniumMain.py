@@ -1,6 +1,6 @@
 from selenium import webdriver
 PATH = "chromedriver_win32\chromedriver.exe"
-QUIZLETLINK = "https://quizlet.com/542985790/match"
+QUIZLETLINK = "https://quizlet.com/XXXXXXXX/match"
 FILE_PATH = "PolyatomicIons"
 RUN_ON_REPEAT = True
 KEEPOPEN = False
