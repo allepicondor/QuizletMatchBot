@@ -1,15 +1,29 @@
 from selenium import webdriver
+import argparse
+parser = argparse.ArgumentParser(description='Quizlet Bot')
+parser.add_argument('QuizletMatchLink', metavar='L', type=str, nargs='+',
+                    help='Link to your quizlet match game')
+parser.add_argument('AnswersLocalFilePath', metavar='F', type=str, nargs='+',
+                    help='File path to the answer txt of yout quizlet')
+parser.add_argument('-ROR', '--ROR',help="Run on repeat",action='store_true')
+parser.add_argument('-KO', '--KO',help="Keep window open",action='store_true')
+args = parser.parse_args()
+print(args.QuizletMatchLink)
+
 PATH = "chromedriver_win32\chromedriver.exe"
-QUIZLETLINK = "https://quizlet.com/XXXXXXXX/match"
-FILE_PATH = "PolyatomicIons"
-RUN_ON_REPEAT = True
-KEEPOPEN = False
+QUIZLETLINK = args.QuizletMatchLink[0]
+FILE_PATH = args.AnswersLocalFilePath[0]
+RUN_ON_REPEAT = args.ROR
+KEEPOPEN = args.KO
 driver = webdriver.Chrome(PATH)
 
 badChars = ["/","(",")","[","]"]
 alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y',' ']
 def textCleanUp(text):
-    return text.strip()
+    text = text.replace("\n"," ")
+    text = text.replace(" ", "")
+
+    return text
     # text = text.replace("Syn","_")
     # text = text.replace("Ant","_")
     # text = text.replace("SYNONYMS","_")
@@ -38,12 +52,11 @@ Definitions=[]
 termToDefinitions = {}
 for word in file1:
    word = word.split("*(#")
-   term = word[0]
+   term = textCleanUp(word[0])
    definition = textCleanUp(word[1])
    Terms.append(term)
    Definitions.append(definition)
    termToDefinitions[term] = definition
-
 while True:
     driver.get(QUIZLETLINK)
     StartButton = driver.find_element_by_class_name("UIButton.UIButton--hero" )
