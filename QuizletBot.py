@@ -27,10 +27,10 @@ KEEPOPEN = args.KO
 GrabWords=args.GrabWords
 loggedIn=False
 try:
-    open(str(args.QuizletCode[0])+".txt", 'r', encoding='utf-8')
+    open("Sets/"+str(args.QuizletCode[0])+".txt", 'r', encoding='utf-8')
     if(input("You already have vocab list downloaded from previous run if you would rather use this one? (y/N)") == "y"):
         GrabWords = False
-        FILE_PATH = str(args.QuizletCode[0])+".txt"
+        FILE_PATH = "Sets/"+str(args.QuizletCode[0])+".txt"
 except Exception:
     pass
 if not GrabWords:
@@ -46,7 +46,7 @@ else:
 if(GrabWords):
     file1 = GrabWordsFromQuizlet(QUIZLETLINK,driver)
     if(args.SaveFile):
-        file3 = open(str(args.QuizletCode[0])+".txt","w",encoding='utf-8') 
+        file3 = open("Sets/"+str(args.QuizletCode[0])+".txt","w",encoding='utf-8') 
     file1 = file1.split("@#$")
 if not (args.username == None and args.password == None):
     Login(args.username,args.password,driver)
