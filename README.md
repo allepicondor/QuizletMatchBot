@@ -1,20 +1,18 @@
 # QuizletMatchBot
- For quizlet match games can get as low as .7 seconds works on 99% of quizlets
- 
-1. Install Pip modules.
-    pip install selenium
-    
-2. go to the quizlet you want to use and hit the More button (3 horizontal dots).
- 
-3. select export.
- 
-4. once in export menu for Between term and definition select CUSTOM and change the placeholder to "*(#".
- 
-5. For Between rows select Custom and change the placeholder to "@#$".
+For quizlet match games can get as low as .7 seconds works on 99% of quizlets
+## Basic Start Guide:
+	1. Clone this repository
 
-    [ExampleExport](https://raw.githubusercontent.com/allepicondor/QuizletMatchBot/main/images/Export.PNG)
-    
-6. Now hit Copy text and paste it in a new text file in the directory of main.py,**b after you paste it check to make sure there is no "@#$" as the last chars of the text if there is delete it you can now save it as "answers"
- 
-7. Open CMD and cd into the main.py directory ex"cd C://path/to/main.py" after you cd run the python file like this
-   python SeleniumMain.py YourLinkToMatch NameOfFIleWithAnswers.txt
+	2. Install Pip modules.
+		pip install selenium
+
+	3. Find the quizlet code for your selected quizlet by looking at the url ex. quizlet.com/ **123456789** /NAMEOFQUIZLETSET/ -> **123456789**
+
+	4. CD to directory og QuizletBot.py 
+
+	5. Run command "py QuizletBot.py -GrabWords -KO QUIZLETCODE" in cmd
+## Common Problems
+	1. Loading the website version of Quizlet instead of the mobile verison.
+		This is and easy fix add the argument -mobile or -m ex. "py QuizletBot.py -GrabWords **-m** -KO QUIZLETCODE" 
+	2. Super long quizlets dont work.
+		I know i'll fix later.
