@@ -10,7 +10,7 @@ parser.add_argument('QuizletCode', metavar='L', type=str, nargs='+',
 parser.add_argument('-VocabList',type=str,
                     help='File path to the answer txt of yout quizlet')
 parser.add_argument('-ROR', '--ROR',help="Run on repeat",action='store_true')
-parser.add_argument('-KO', '--KO',help="Keep window open",action='store_false')
+parser.add_argument('-KO', '--KO',help="Keep window open",action='store_trur')
 parser.add_argument('-GrabWords', '--GrabWords',help="Grab The vocab list for you REQUIRES LOGIN",action='store_true')
 parser.add_argument('-SaveFile', '--SaveFile',help="save file after grab words",action='store_true')
 parser.add_argument('-username', '--username',"-u",help="Optional leave blank if you dont want it to sign in.")
@@ -35,19 +35,25 @@ except Exception:
     pass
 if not GrabWords:
     file1 = open(FILE_PATH, 'r', encoding='utf-8')
-    file1 = file1.read().split("@#$")
+    WordList = file1.read().split("@#$")
+    file1.close()
 if(args.mobile):
     mobile_emulation = { "deviceName": "Nexus 5" }
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_experimental_option("mobileEmulation", mobile_emulation)
+    chrome_options.add_argument("--log-level=3")
     driver = webdriver.Chrome(PATH,desired_capabilities = chrome_options.to_capabilities())
 else:
-    driver = webdriver.Chrome(PATH)
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument("--log-level=3")
+    driver = webdriver.Chrome(PATH,desired_capabilities = chrome_options.to_capabilities())
 if(GrabWords):
-    file1 = GrabWordsFromQuizlet(QUIZLETLINK,driver)
+    WordList = GrabWordsFromQuizlet(QUIZLETLINK,driver)
     if(args.SaveFile):
         file3 = open("Sets/"+str(args.QuizletCode[0])+".txt","w",encoding='utf-8') 
-    file1 = file1.split("@#$")
+        file3.write(WordList)
+        file3.close()
+    WordList = WordList.split("@#$")
 if not (args.username == None and args.password == None):
     Login(args.username,args.password,driver)
     loggedIn=True
@@ -63,7 +69,7 @@ def textCleanUp(text):
 Terms = []
 Definitions=[]
 termToDefinitions = {}
-for word in file1:
+for word in WordList:
    word = word.split("*(#")
    term = textCleanUp(word[0])
    definition = textCleanUp(word[1])
