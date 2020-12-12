@@ -14,4 +14,5 @@ For quizlet match games can get as low as .7 seconds works on 99% of quizlets
 ## Common Problems
 	1. Loading the website version of Quizlet instead of the mobile verison.
 		This is and easy fix add the argument -mobile or -m ex. "py QuizletBot.py -GrabWords **-m** -KO QUIZLETCODE" 
-		
+	2. Super long quizlets dont work.
+		I know i'll fix later.
